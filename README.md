@@ -18,7 +18,7 @@
 
 ```bash
 cd ~/.openclaw/workspace/skills
-git clone https://github.com/<your-username>/feishu-doc-manager.git
+git clone https://github.com/Shuai-DaiDai/feishu-doc-manager.git
 ```
 
 ### 配置
