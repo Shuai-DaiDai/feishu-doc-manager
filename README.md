@@ -39,13 +39,28 @@ git clone https://github.com/<your-username>/feishu-doc-manager.git
 
 ### 飞书机器人权限配置
 
-使用本 Skill 需要配置以下飞书开放平台权限：
+使用本 Skill 需要配置以下飞书开放平台权限。
 
-#### 批量导入权限
+#### 📖 配置步骤
 
+**步骤 1：进入权限管理页面**
 1. 登录 [飞书开放平台](https://open.feishu.cn/app)
-2. 选择你的应用 → **权限管理** → **批量导入**
-3. 粘贴以下内容导入所有必需权限：
+2. 选择你的应用 → 点击 **开发配置** → **权限管理**
+
+**步骤 2：批量导入权限**
+1. 在权限管理页面，点击 **批量导入** 按钮
+2. 复制下方的 JSON 内容，粘贴到输入框中
+3. 点击 **确定** 导入所有必需权限
+
+![权限批量导入界面](docs/images/feishu-permission-import.png)
+
+**步骤 3：申请权限审核**
+1. 部分权限需要管理员审核，点击 **申请权限**
+2. 等待组织管理员审批通过
+
+#### 📋 批量导入 JSON
+
+复制以下内容进行批量导入：
 
 ```json
 {
@@ -97,19 +112,32 @@ git clone https://github.com/<your-username>/feishu-doc-manager.git
 }
 ```
 
-#### 核心权限说明
+#### 🔑 核心权限说明
 
-| 权限 | 用途 |
-|------|------|
-| `docx:document` | 文档读写操作 |
-| `docx:document:create` | 创建新文档 |
-| `docx:document:write_only` | 写入文档内容 |
-| `docs:permission.member` | 管理文档协作者 |
-| `docs:permission.member:update` | 更新协作者权限 |
-| `contact:user.base:readonly` | 读取用户信息 |
-| `im:message:send_as_bot` | 以机器人身份发送消息 |
+| 权限 | 用途 | 必需 |
+|------|------|------|
+| `docx:document` | 文档读写操作 | ✅ |
+| `docx:document:create` | 创建新文档 | ✅ |
+| `docx:document:write_only` | 写入文档内容 | ✅ |
+| `docs:permission.member` | 管理文档协作者 | ✅ |
+| `docs:permission.member:update` | 更新协作者权限 | ✅ |
+| `contact:user.base:readonly` | 读取用户信息 | ✅ |
+| `im:message:send_as_bot` | 以机器人身份发送消息 | ✅ |
+| `im:message` | 发送消息 | ✅ |
 
-⚠️ **注意**: 部分权限需要管理员审核，请确保你的飞书组织已开启相应权限。
+#### ⚠️ 常见问题
+
+**Q: 权限申请被拒绝了怎么办？**
+A: 请联系你们组织的飞书管理员，说明需要这些权限用于文档管理自动化。
+
+**Q: 批量导入提示格式错误？**
+A: 请确保复制完整的 JSON 内容，包括大括号 `{}`。
+
+**Q: 配置完成后还是无法使用？**
+A: 请检查：
+1. 权限是否已经审核通过（显示为绿色）
+2. OpenClaw 配置中的 `appId` 和 `appSecret` 是否正确
+3. 应用是否已经发布（开发环境下需要添加测试用户）
 
 ## 使用方法
 
