@@ -1,6 +1,6 @@
-# Feishu Doc Manager
+# Feishu Doc Manager Skill
 
-飞书文档综合管理工具 - 支持创建、写入、更新、权限管理。
+飞书文档综合管理工具 - OpenClaw Skill，支持创建、写入、更新、权限管理。
 
 ## 功能特性
 
