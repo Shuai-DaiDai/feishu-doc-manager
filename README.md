@@ -37,6 +37,80 @@ git clone https://github.com/<your-username>/feishu-doc-manager.git
 }
 ```
 
+### 飞书机器人权限配置
+
+使用本 Skill 需要配置以下飞书开放平台权限：
+
+#### 批量导入权限
+
+1. 登录 [飞书开放平台](https://open.feishu.cn/app)
+2. 选择你的应用 → **权限管理** → **批量导入**
+3. 粘贴以下内容导入所有必需权限：
+
+```json
+{
+  "scopes": {
+    "tenant": [
+      "aily:message:read",
+      "aily:message:write",
+      "application:application.app_message_stats.overview:readonly",
+      "bitable:app",
+      "contact:user.base:readonly",
+      "docs:permission.member",
+      "docs:permission.member:auth",
+      "docs:permission.member:create",
+      "docs:permission.member:delete",
+      "docs:permission.member:readonly",
+      "docs:permission.member:retrieve",
+      "docs:permission.member:transfer",
+      "docs:permission.member:update",
+      "docs:permission.setting",
+      "docs:permission.setting:read",
+      "docs:permission.setting:readonly",
+      "docs:permission.setting:write_only",
+      "docx:document",
+      "docx:document.block:convert",
+      "docx:document:create",
+      "docx:document:readonly",
+      "docx:document:write_only",
+      "drive:drive",
+      "drive:drive:readonly",
+      "im:app_feed_card:write",
+      "im:chat:readonly",
+      "im:message",
+      "im:message.group_at_msg:readonly",
+      "im:message.group_msg",
+      "im:message.p2p_msg:readonly",
+      "im:message.reactions:read",
+      "im:message:readonly",
+      "im:message:recall",
+      "im:message:send_as_bot",
+      "im:message:update",
+      "im:resource",
+      "wiki:wiki",
+      "wiki:wiki:readonly"
+    ],
+    "user": [
+      "docx:document:readonly"
+    ]
+  }
+}
+```
+
+#### 核心权限说明
+
+| 权限 | 用途 |
+|------|------|
+| `docx:document` | 文档读写操作 |
+| `docx:document:create` | 创建新文档 |
+| `docx:document:write_only` | 写入文档内容 |
+| `docs:permission.member` | 管理文档协作者 |
+| `docs:permission.member:update` | 更新协作者权限 |
+| `contact:user.base:readonly` | 读取用户信息 |
+| `im:message:send_as_bot` | 以机器人身份发送消息 |
+
+⚠️ **注意**: 部分权限需要管理员审核，请确保你的飞书组织已开启相应权限。
+
 ## 使用方法
 
 ### 创建文档
