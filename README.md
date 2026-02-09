@@ -1,191 +1,208 @@
-# Feishu Doc Manager Skill
+# 📄 Feishu Doc Manager | 飞书文档管理器
 
-飞书文档综合管理工具 - OpenClaw Skill，支持创建、写入、更新、权限管理。
+> **English**: Seamlessly publish Markdown content to Feishu Docs with automatic formatting. Solves key pain points: Markdown table conversion, permission management, batch writing.
+>
+> **中文**：将 Markdown 内容无缝发布到飞书文档，自动渲染格式。解决核心痛点：Markdown 表格转换、权限管理、批量写入。
 
-## 功能特性
+[![OpenClaw](https://img.shields.io/badge/OpenClaw-Skill-blue)](https://openclaw.ai)
+[![Feishu](https://img.shields.io/badge/Feishu-Integration-green)](https://open.feishu.cn)
+[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
-- 📄 **创建文档** - 新建飞书文档，支持指定文件夹
-- 📝 **写入内容** - 支持 Markdown，自动渲染为结构化文档
-- ➕ **追加内容** - 在文档末尾添加内容
-- 🔄 **更新块** - 修改指定块的内容
-- 🔐 **权限管理** - 添加/删除协作者，修改权限级别
+---
 
-## 快速开始
+## 🎯 Problems Solved | 解决的痛点
 
-### 安装
+Based on real-world publishing experience | 基于实际发布经验：
 
-将此 skill 复制到你的 OpenClaw workspace:
+| Pain Point | Solution | 痛点 | 解决方案 |
+|------------|----------|------|----------|
+| ❌ **Markdown tables don't render** | ✅ Auto-convert to formatted lists | Markdown 表格无法渲染 | 自动转换为格式化列表 |
+| ❌ **Permission management is complex** | ✅ One-click collaborator management | 权限管理复杂 | 一键协作者管理 |
+| ❌ **Long content causes 400 errors** | ✅ Auto-split and batch write | 长内容导致 400 错误 | 自动分段批量写入 |
+| ❌ **Formatting inconsistencies** | ✅ `write`/`append` auto-render Markdown | 格式不一致 | write/append 自动渲染 |
+| ❌ **Block updates lose formatting** | ✅ Clear API distinction | 块级更新丢失格式 | 清晰的 API 区分 |
+
+---
+
+## ✨ Features | 功能特性
+
+### 📝 Smart Markdown Publishing | 智能 Markdown 发布
+- **Automatic rendering** when using `write` or `append` actions
+- **Table workaround**: Tables auto-convert to formatted lists
+- **Full syntax support**: Headers, lists, bold, italic, code, quotes
+
+**自动渲染**使用 `write` 或 `append` 操作时
+**表格解决方案**：表格自动转换为格式化列表
+**完整语法支持**：标题、列表、粗体、斜体、代码、引用
+
+### 🔐 Permission Management | 权限管理
+- Add/remove collaborators with one command
+- Update permission levels (view/edit/full_access)
+- List all current permissions
+- Transfer document ownership
+
+一键添加/删除协作者
+更新权限级别（查看/编辑/完全访问）
+列出现有权限
+转移文档所有权
+
+### 📄 Document Operations | 文档操作
+- Create documents with specified folders
+- Write full Markdown content
+- Append to existing documents
+- Update/delete specific blocks
+- List document structure
+
+在指定文件夹创建文档
+写入完整 Markdown 内容
+追加到现有文档
+更新/删除指定块
+列出文档结构
+
+---
+
+## 🚀 Quick Start | 快速开始
+
+### Installation | 安装
 
 ```bash
 cd ~/.openclaw/workspace/skills
 git clone https://github.com/Shuai-DaiDai/feishu-doc-manager.git
 ```
 
-### 配置
+### Configuration | 配置
 
-确保你的 OpenClaw 已配置飞书渠道：
+1. Go to [Feishu Open Platform](https://open.feishu.cn/app) | 访问[飞书开放平台](https://open.feishu.cn/app)
+2. Select your app → **Development Config** → **Permission Management** | 选择应用 → **开发配置** → **权限管理**
+3. Import required permissions | 导入必需权限
 
-```json
-{
-  "channels": {
-    "feishu": {
-      "enabled": true,
-      "appId": "cli_xxx",
-      "appSecret": "xxx"
-    }
-  }
-}
-```
-
-### 飞书机器人权限配置
-
-使用本 Skill 需要配置以下飞书开放平台权限。
-
-#### 📖 配置步骤
-
-**步骤 1：进入权限管理页面**
-1. 登录 [飞书开放平台](https://open.feishu.cn/app)
-2. 选择你的应用 → 点击 **开发配置** → **权限管理**
-
-**步骤 2：批量导入权限**
-1. 在权限管理页面，点击 **批量导入** 按钮
-2. 复制下方的 JSON 内容，粘贴到输入框中
-3. 点击 **确定** 导入所有必需权限
-
-![权限批量导入界面](docs/images/feishu-permission-import.png)
-
-**步骤 3：申请权限审核**
-1. 部分权限需要管理员审核，点击 **申请权限**
-2. 等待组织管理员审批通过
-
-#### 📋 批量导入 JSON
-
-复制以下内容进行批量导入：
+### Required Permissions | 必需权限
 
 ```json
 {
   "scopes": {
     "tenant": [
-      "aily:message:read",
-      "aily:message:write",
-      "application:application.app_message_stats.overview:readonly",
-      "bitable:app",
-      "contact:user.base:readonly",
-      "docs:permission.member",
-      "docs:permission.member:auth",
-      "docs:permission.member:create",
-      "docs:permission.member:delete",
-      "docs:permission.member:readonly",
-      "docs:permission.member:retrieve",
-      "docs:permission.member:transfer",
-      "docs:permission.member:update",
-      "docs:permission.setting",
-      "docs:permission.setting:read",
-      "docs:permission.setting:readonly",
-      "docs:permission.setting:write_only",
       "docx:document",
-      "docx:document.block:convert",
-      "docx:document:create",
-      "docx:document:readonly",
+      "docx:document:create", 
       "docx:document:write_only",
-      "drive:drive",
-      "drive:drive:readonly",
-      "im:app_feed_card:write",
-      "im:chat:readonly",
-      "im:message",
-      "im:message.group_at_msg:readonly",
-      "im:message.group_msg",
-      "im:message.p2p_msg:readonly",
-      "im:message.reactions:read",
-      "im:message:readonly",
-      "im:message:recall",
-      "im:message:send_as_bot",
-      "im:message:update",
-      "im:resource",
-      "wiki:wiki",
-      "wiki:wiki:readonly"
-    ],
-    "user": [
-      "docx:document:readonly"
+      "docs:permission.member",
+      "contact:user.base:readonly"
     ]
   }
 }
 ```
 
-#### 🔑 核心权限说明
+---
 
-| 权限 | 用途 | 必需 |
-|------|------|------|
-| `docx:document` | 文档读写操作 | ✅ |
-| `docx:document:create` | 创建新文档 | ✅ |
-| `docx:document:write_only` | 写入文档内容 | ✅ |
-| `docs:permission.member` | 管理文档协作者 | ✅ |
-| `docs:permission.member:update` | 更新协作者权限 | ✅ |
-| `contact:user.base:readonly` | 读取用户信息 | ✅ |
-| `im:message:send_as_bot` | 以机器人身份发送消息 | ✅ |
-| `im:message` | 发送消息 | ✅ |
+## 📖 Usage Examples | 使用示例
 
-#### ⚠️ 常见问题
-
-**Q: 权限申请被拒绝了怎么办？**
-A: 请联系你们组织的飞书管理员，说明需要这些权限用于文档管理自动化。
-
-**Q: 批量导入提示格式错误？**
-A: 请确保复制完整的 JSON 内容，包括大括号 `{}`。
-
-**Q: 配置完成后还是无法使用？**
-A: 请检查：
-1. 权限是否已经审核通过（显示为绿色）
-2. OpenClaw 配置中的 `appId` 和 `appSecret` 是否正确
-3. 应用是否已经发布（开发环境下需要添加测试用户）
-
-## 使用方法
-
-### 创建文档
+### 1. Create Document | 创建文档
 
 ```json
 {
   "action": "create",
-  "title": "我的文档",
-  "folder_token": "可选"
+  "title": "Q1 Report | Q1 报告",
+  "folder_token": "optional_folder_token"
 }
 ```
 
-### 写入 Markdown 内容
+### 2. Write Markdown Content | 写入 Markdown 内容
+
+**⚠️ Critical | 关键**：Use `write` for Markdown rendering, NOT `update_block`
 
 ```json
 {
   "action": "write",
   "doc_token": "UWpxdSnmXo6mPdxwOyCcWTPUndD",
-  "content": "# 标题\n\n## 二级标题\n\n- **粗体**\n- 列表项"
+  "content": "# Project Overview | 项目概览\n\n## Key Metrics | 关键指标\n\n- **Revenue | 收入**: $100K\n- **Users | 用户**: 10K\n- **Growth | 增长**: 25%\n\n> This project exceeded expectations | 该项目超出预期"
 }
 ```
 
-### 权限管理
+### 3. Add Collaborator | 添加协作者
 
 ```bash
-# 添加协作者
-curl -X POST "https://open.feishu.cn/open-apis/drive/v1/permissions/{token}/members?type=docx" \
+curl -X POST "https://open.feishu.cn/open-apis/drive/v1/permissions/{doc_token}/members?type=docx" \
   -H "Authorization: Bearer {token}" \
-  -d '{"member_type": "openid", "member_id": "ou_xxx", "perm": "edit"}'
+  -H "Content-Type: application/json" \
+  -d '{
+    "member_type": "openid",
+    "member_id": "ou_xxx",
+    "perm": "edit"
+  }'
 ```
 
-## Markdown 支持
+---
 
-| Markdown | 效果 |
-|----------|------|
-| `# 标题` | 标题1 |
-| `## 标题` | 标题2 |
-| `- 列表` | 无序列表 |
-| `**粗体**` | 粗体 |
-| `> 引用` | 引用块 |
+## 📋 Markdown Support | Markdown 支持
 
-⚠️ **注意**: `write`/`append` 支持 Markdown 渲染，`update_block` 仅支持纯文本。
+### ✅ Supported | 支持
 
-## 详细文档
+| Markdown | Result | Markdown | 效果 |
+|----------|--------|----------|------|
+| `# Title` | Heading 1 | `# 标题` | 标题1 |
+| `## Title` | Heading 2 | `## 标题` | 标题2 |
+| `- Item` | Bullet list | `- 项目` | 无序列表 |
+| `**bold**` | **Bold** | `**粗体**` | **粗体** |
+| `> quote` | Blockquote | `> 引用` | 引用块 |
 
-查看 [SKILL.md](SKILL.md) 获取完整使用指南。
+### ❌ Not Supported | 不支持
 
-## 许可证
+- **Tables**: Auto-converted to lists | 表格：自动转换为列表
+- **Images**: Use separate API | 图片：使用单独 API
+- **Complex HTML**: Use Markdown | 复杂 HTML：使用 Markdown
 
-MIT
+---
+
+## 🔧 Key Insight | 核心发现
+
+### `write`/`append` vs `update_block`
+
+| Feature | `write`/`append` | `update_block` |
+|---------|------------------|----------------|
+| Markdown Rendering | ✅ **Yes** | ❌ No (plain text) |
+| Use Case | Initial content, appending | Quick text patches |
+| 功能 | 初始内容、追加 | 快速文本修补 |
+| Markdown 渲染 | ✅ **支持** | ❌ 不支持（纯文本） |
+
+**💡 Best Practice**: Always use `write` or `append` for Markdown content to get full formatting.
+**💡 最佳实践**：Markdown 内容始终使用 `write` 或 `append` 以获得完整格式。
+
+---
+
+## 🐛 Troubleshooting | 故障排除
+
+### Problem: 400 Bad Request | 400 错误
+**Cause**: Content too long | 原因：内容过长  
+**Solution**: Split into smaller chunks | 解决：分段写入
+
+### Problem: Markdown not rendering | Markdown 不渲染
+**Cause**: Used `update_block` instead of `write` | 原因：使用了 `update_block`  
+**Solution**: Use `write` or `append` | 解决：使用 `write` 或 `append`
+
+### Problem: Permission denied | 权限错误
+**Cause**: Missing `docs:permission.member` | 原因：缺少权限  
+**Solution**: Add in Feishu console | 解决：在飞书控制台添加
+
+---
+
+## 📄 Document Structure | 文档结构
+
+```
+feishu-doc-manager/
+├── SKILL.md          # Skill definition | 技能定义
+├── README.md         # Documentation | 文档
+├── LICENSE           # MIT License | MIT 许可证
+├── install.sh        # Setup script | 安装脚本
+└── docs/             # Additional docs | 补充文档
+    └── images/       # Screenshots | 截图
+```
+
+---
+
+## 🤝 Contributing | 贡献
+
+Issues and PRs welcome! | 欢迎提交 Issue 和 PR！
+
+## 📜 License | 许可证
+
+MIT © Shuai-DaiDai
